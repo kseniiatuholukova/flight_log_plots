@@ -7,7 +7,7 @@ from typeguard import typechecked
 class Binder:
     @typechecked
     def __init__(self, df: pd.DataFrame) -> None:
-        """Binds data for plotting"""
+        """Initializes the Binder object"""
         self.df = df
 
     @typechecked
