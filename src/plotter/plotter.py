@@ -10,7 +10,13 @@ class Plotter:
         self.df = df
 
     @typechecked
-    def plot(self, col_x: str, col_y: str) -> None:
+    def plot_unbound(self, col_x: str, col_y: str, out_filepath: str) -> None:
         """Plots the data"""
         fig = px.scatter(self.df, x=col_x, y=col_y)
-        fig.show()
+        fig.write_html(out_filepath)
+
+    @typechecked
+    def plot_bound(self, col_x: str, col_y: str, col_z: str, out_filepath: str) -> None:
+        """Plots the data with binding"""
+        fig = px.scatter(self.df, x=col_x, y=col_y, hover_data=[col_z])
+        fig.write_html(out_filepath)
