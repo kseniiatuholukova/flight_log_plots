@@ -1,0 +1,2 @@
+class ColName:
+    BINS = "bins"
