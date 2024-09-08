@@ -16,7 +16,7 @@ for pair in [
         col_y=pair[1],
         col_to_bind_by="timestamp",
         n_bins=2000,
-        bin_size_threshold=100,
+        bin_size_max_limit=100,
         out_filepath=f"examples/{pair[1]}_against_{pair[0]}.html",
         show_fig=False,
     )

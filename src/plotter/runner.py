@@ -38,7 +38,7 @@ class Runner:
         col_y: str,
         col_to_bind_by: Optional[str] = None,
         n_bins: Optional[int] = None,
-        bin_size_threshold: Optional[int] = None,
+        bin_size_max_limit: Optional[int] = None,
         out_filepath: Optional[str] = "".join(["plot", FileFormat.HTML]),
         show_fig: bool = False,
     ) -> None:
@@ -54,7 +54,7 @@ class Runner:
         n_bins (int, optional): Number of bins to create. If not provided and
             col_to_bind_by is provided, the third variable is used without binning.
             Defaults to None.
-        bin_size_threshold(int, optional): Minimum number of data points in a
+        bin_size_max_limit (int, optional): Minimum number of data points in a
             bin. If bins have fewer data points, the ValueError is raised. Defaults
             to None.
         out_filepath (str, optional): Path to save the plot. If the filepath
@@ -70,7 +70,7 @@ class Runner:
             self.df[ColName.BIN] = bin_data(
                 self.df[col_to_bind_by],
                 n_bins,
-                bin_size_threshold=bin_size_threshold,
+                bin_size_max_limit=bin_size_max_limit,
             )
 
         if col_to_bind_by is not None:
