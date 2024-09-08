@@ -5,15 +5,20 @@ if __name__ == "__main__":
         in_filepath="./synthetic_data/synthetic_data.csv", datetime_col="timestamp"
     )
 
-    # runner.run(
-    #     col_x="capybara",
-    #     col_y="fox",
-    #     col_to_bind_by="timestamp",
-    #     n_bins=10,
-    #     out_filepath="plot_1.html",
-    #     bind=True,
-    # )
+    runner.run(
+        col_x="capybara",
+        col_y="fox",
+        bind_with_3rd_var=True,
+        col_to_bind_by="timestamp",
+        n_bins=2000,
+        out_filepath="../plot_1.html",
+        show_fig=True,
+    )
 
     runner.run(
-        col_x="timestamp", col_y="capybara", out_filepath="plot_2.html", bind=False
+        col_x="timestamp",
+        col_y="capybara",
+        bind_with_3rd_var=False,
+        out_filepath="../plot_2.html",
+        show_fig=True,
     )

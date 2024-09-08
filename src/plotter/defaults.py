@@ -1,5 +1,5 @@
 class ColName:
-    BINS = "bins"
+    BIN = "bin"
 
 
 class FileFormat:

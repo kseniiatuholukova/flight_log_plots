@@ -27,14 +27,14 @@ class Runner:
         self,
         col_x: str,
         col_y: str,
+        bind_with_3rd_var: bool = False,
         col_to_bind_by: Optional[str] = None,
         n_bins: Optional[int] = None,
         out_filepath: Optional[str] = "".join(["plot", FileFormat.HTML]),
-        bind: bool = False,
         show_fig: bool = False,
     ) -> None:
         """Runs binning, binding, and plotting on a given DataFrame"""
-        if bind and (col_to_bind_by is None):
+        if bind_with_3rd_var and (col_to_bind_by is None):
             raise ValueError("Bind set to True, but the binding column is not provided")
 
         for col in [col_x, col_y, col_to_bind_by]:
@@ -42,25 +42,25 @@ class Runner:
                 raise ValueError(f"Column {col} not found in the DataFrame")
 
         if n_bins is not None:
-            self.df[ColName.BINS] = bin_data(self.df[col_to_bind_by], n_bins)
-            col_to_bind_by = ColName.BINS
+            self.df[ColName.BIN] = bin_data(self.df[col_to_bind_by], n_bins)
 
-        plotter = Plotter(self.df)
-
-        if bind:
+        if bind_with_3rd_var:
             binder = Binder(self.df)
+            bound_df = binder.bind(col_x=col_x, col_y=col_y, col_to_bind_by=ColName.BIN)
 
-            self.df = binder.bind(col_x=col_x, col_y=col_y, col_z=col_to_bind_by)
+            plotter = Plotter(bound_df)
 
             plotter.plot(
                 col_x=col_x,
                 col_y=col_y,
                 out_filepath=out_filepath,
-                hover_data_col=col_to_bind_by,
+                hover_data_col=ColName.BIN,
                 show_fig=show_fig,
             )
 
         else:
+            plotter = Plotter(self.df)
+
             plotter.plot(
                 col_x=col_x,
                 col_y=col_y,

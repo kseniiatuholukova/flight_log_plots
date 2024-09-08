@@ -32,6 +32,8 @@ class Plotter:
             if col is not None and col not in self.df.columns:
                 raise ValueError(f"Column {col} not found in the DataFrame")
 
+        print("Plotting...")
+
         if hover_data_col is not None:
             fig = px.scatter(
                 self.df,
@@ -51,3 +53,5 @@ class Plotter:
             fig.show()
 
         fig.write_html(out_filepath)
+
+        print(f"Plot saved at: {out_filepath}")
