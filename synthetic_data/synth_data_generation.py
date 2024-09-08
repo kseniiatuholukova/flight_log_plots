@@ -16,13 +16,12 @@ capybara = np.random.uniform(20, 80, int(N_ROWS * 0.8))
 capybara = np.concatenate([capybara, [np.nan] * int(N_ROWS * 0.2)])
 np.random.shuffle(capybara)
 
-# Column 2: fox (float between 5 and 25, normal distribution), 90% filled, rest NaN
+# Column 2: fox (float, normal distribution, mean 15, stdev 5), 90% filled, rest NaN
 fox = np.random.normal(15, 5, int(N_ROWS * 0.9))
-fox = np.clip(fox, 5, 25)  # Limiting fox to the range [5, 25]
 fox = np.concatenate([fox, [np.nan] * int(N_ROWS * 0.1)])
 np.random.shuffle(fox)
 
-# Column 3: opossum (float between 30 and 40, uniform, increasing), 50% filled, rest NaN
+# Column 3: opossum (float between 30 and 40, uniform), 50% filled, rest NaN
 opossum = np.linspace(30, 40, int(N_ROWS * 0.5))
 opossum = np.concatenate([opossum, [np.nan] * int(N_ROWS * 0.5)])
 np.random.shuffle(opossum)
