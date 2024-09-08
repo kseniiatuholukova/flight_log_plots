@@ -31,6 +31,7 @@ class Runner:
         n_bins: Optional[int] = None,
         out_filepath: Optional[str] = "".join(["plot", FileFormat.HTML]),
         bind: bool = False,
+        show_fig: bool = False,
     ) -> None:
         """Runs binning, binding, and plotting on a given DataFrame"""
         if bind and (col_to_bind_by is None):
@@ -50,12 +51,19 @@ class Runner:
             binder = Binder(self.df)
 
             self.df = binder.bind(col_x=col_x, col_y=col_y, col_z=col_to_bind_by)
-            plotter.plot_bound(
+
+            plotter.plot(
                 col_x=col_x,
                 col_y=col_y,
-                col_z=col_to_bind_by,
                 out_filepath=out_filepath,
+                hover_data_col=col_to_bind_by,
+                show_fig=show_fig,
             )
 
         else:
-            plotter.plot_unbound(col_x=col_x, col_y=col_y, out_filepath=out_filepath)
+            plotter.plot(
+                col_x=col_x,
+                col_y=col_y,
+                out_filepath=out_filepath,
+                show_fig=show_fig,
+            )
