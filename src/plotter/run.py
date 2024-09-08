@@ -8,9 +8,8 @@ if __name__ == "__main__":
     runner.run(
         col_x="capybara",
         col_y="fox",
-        bind_with_3rd_var=True,
         col_to_bind_by="timestamp",
-        n_bins=10,
+        n_bins=None,
         bin_size_threshold=100,
         out_filepath="../plot_1.html",
         show_fig=True,
@@ -19,7 +18,6 @@ if __name__ == "__main__":
     runner.run(
         col_x="timestamp",
         col_y="capybara",
-        bind_with_3rd_var=False,
         out_filepath="../plot_2.html",
         show_fig=True,
     )
