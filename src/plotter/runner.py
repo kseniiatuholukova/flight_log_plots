@@ -30,6 +30,7 @@ class Runner:
         bind_with_3rd_var: bool = False,
         col_to_bind_by: Optional[str] = None,
         n_bins: Optional[int] = None,
+        bin_size_threshold: Optional[int] = None,
         out_filepath: Optional[str] = "".join(["plot", FileFormat.HTML]),
         show_fig: bool = False,
     ) -> None:
@@ -42,11 +43,19 @@ class Runner:
                 raise ValueError(f"Column {col} not found in the DataFrame")
 
         if n_bins is not None:
-            self.df[ColName.BIN] = bin_data(self.df[col_to_bind_by], n_bins)
+            self.df[ColName.BIN] = bin_data(
+                self.df[col_to_bind_by],
+                n_bins,
+                bin_size_threshold=bin_size_threshold,
+            )
 
         if bind_with_3rd_var:
             binder = Binder(self.df)
-            bound_df = binder.bind(col_x=col_x, col_y=col_y, col_to_bind_by=ColName.BIN)
+            bound_df = binder.bind(
+                col_x=col_x,
+                col_y=col_y,
+                col_to_bind_by=ColName.BIN,
+            )
 
             plotter = Plotter(bound_df)
 

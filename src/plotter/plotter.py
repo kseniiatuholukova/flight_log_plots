@@ -32,7 +32,7 @@ class Plotter:
             if col is not None and col not in self.df.columns:
                 raise ValueError(f"Column {col} not found in the DataFrame")
 
-        print("Plotting...")
+        print(f"Plotting... {col_y} vs {col_x}")
 
         if hover_data_col is not None:
             fig = px.scatter(

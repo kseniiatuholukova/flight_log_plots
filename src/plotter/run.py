@@ -10,7 +10,8 @@ if __name__ == "__main__":
         col_y="fox",
         bind_with_3rd_var=True,
         col_to_bind_by="timestamp",
-        n_bins=2000,
+        n_bins=10,
+        bin_size_threshold=100,
         out_filepath="../plot_1.html",
         show_fig=True,
     )
