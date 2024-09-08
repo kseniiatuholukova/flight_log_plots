@@ -35,3 +35,8 @@ class Reader:
                 f"{FileFormat.TSV}, {FileFormat.XLS}, f{FileFormat.XLSX} files are "
                 "supported."
             )
+
+    @typechecked
+    def set_datetime(self, datetime_col: str) -> None:
+        """Sets datetime datatype for the timestamp column if provided."""
+        self.df[datetime_col] = pd.to_datetime(self.df[datetime_col])
