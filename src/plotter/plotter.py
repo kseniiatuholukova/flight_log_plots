@@ -24,7 +24,7 @@ class Plotter:
     ) -> None:
         """Plots the data"""
         assert out_filepath.endswith(FileFormat.HTML), (
-            f"plots are saved in {FileFormat.HTML} format. Please provide a valid "
+            f"Plots are saved in {FileFormat.HTML} format. Please provide a valid "
             "output filepath"
         )
 

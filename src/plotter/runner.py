@@ -13,7 +13,16 @@ from src.plotter.utils import bin_data
 class Runner:
     @typechecked
     def __init__(self, in_filepath: str, datetime_col: Optional[str] = None) -> None:
-        """Initializes the Runner object"""
+        """
+        Initializes the Runner object
+
+        Args:
+            in_filepath (str): Path to the input file. Should end in ".csv", ".tsv",
+                ".xls", or ".xlsx".
+            datetime_col (str, optional): Name of the datetime column in the
+                DataFrame. If specified, the values are treated as timestamps.
+                Defaults to None.
+        """
         self.in_filepath = in_filepath
         reader = Reader(Path(in_filepath))
 
@@ -33,7 +42,26 @@ class Runner:
         out_filepath: Optional[str] = "".join(["plot", FileFormat.HTML]),
         show_fig: bool = False,
     ) -> None:
-        """Runs binning, binding, and plotting on a given DataFrame"""
+        """
+        Runs binning, binding, and plotting on a given DataFrame
+
+        Args:
+        col_x (str): Name of the column to be plotted on the x-axis
+        col_y (str): Name of the column to be plotted on the y-axis
+        col_to_bind_by (str, optional): Name of the column with a third
+            variable to bind by. If not provided, x is plotted directly against y.
+            Defaults to None.
+        n_bins (int, optional): Number of bins to create. If not provided and
+            col_to_bind_by is provided, the third variable is used without binning.
+            Defaults to None.
+        bin_size_threshold(int, optional): Minimum number of data points in a
+            bin. If bins have fewer data points, the ValueError is raised. Defaults
+            to None.
+        out_filepath (str, optional): Path to save the plot. If the filepath
+            does not end with ".html", raises an error. Defaults to "plot.html".
+        show_fig (bool, optional): If True, the plot is displayed in the browser.
+            Defaults to False.
+        """
         for col in [col_x, col_y, col_to_bind_by]:
             if col is not None and col not in self.df.columns:
                 raise ValueError(f"Column {col} not found in the DataFrame")
