@@ -14,11 +14,13 @@ class Plotter:
     @typechecked
     def plot_unbound(self, col_x: str, col_y: str, out_filepath: str) -> None:
         """Plots the data"""
-        if not out_filepath.endswith(FileFormat.HTML):
-            raise ValueError(
-                f"Plots are saved in {FileFormat.HTML} format. Please provide a valid "
-                "output filepath"
-            )
+        assert out_filepath.endswith(FileFormat.HTML), (
+            f"plots are saved in {FileFormat.HTML} format. Please provide a valid "
+            "output filepath"
+        )
+
+        for col in [col_x, col_y]:
+            assert col in self.df.columns, f"Column {col} not found in the DataFrame"
 
         fig = px.scatter(
             self.df,

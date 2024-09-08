@@ -13,6 +13,9 @@ class Binder:
     @typechecked
     def bind(self, col_x: str, col_y: str, col_z: str) -> pd.DataFrame:
         """Binds values in x and y columns based on z column"""
+        for col in [col_x, col_y, col_z]:
+            assert col in self.df.columns, f"Column {col} not found in the DataFrame"
+
         df1 = self.df[[col_z, col_x]].drop_duplicates()
         df2 = self.df[[col_z, col_y]].drop_duplicates()
 
