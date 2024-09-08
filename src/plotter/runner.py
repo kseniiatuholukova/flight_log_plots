@@ -12,7 +12,7 @@ from src.plotter.utils import bin_data
 
 class Runner:
     @typechecked
-    def __init__(self, in_filepath: str, datetime_col: Optional[str]) -> None:
+    def __init__(self, in_filepath: str, datetime_col: Optional[str] = None) -> None:
         """Initializes the Runner object"""
         self.in_filepath = in_filepath
         reader = Reader(Path(in_filepath))
