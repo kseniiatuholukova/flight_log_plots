@@ -43,6 +43,10 @@ df_synthetic = pd.DataFrame(
     }
 )
 
+# make opossum and otter columns sorted
+df_synthetic["opossum"] = np.sort(df_synthetic["opossum"])
+df_synthetic["otter"] = np.sort(df_synthetic["otter"])
+
 # Making opossum and otter data more sparse (by 50% and 30% respectively)
 nan_indices_opossum = np.random.choice(
     df_synthetic.index, size=int(0.5 * N_ROWS), replace=False
