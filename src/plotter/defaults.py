@@ -7,3 +7,4 @@ class FileFormat:
     TSV = ".tsv"
     XLS = ".xls"
     XLSX = ".xlsx"
+    HTML = ".html"

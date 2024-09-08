@@ -4,7 +4,7 @@ from typing import Optional
 from typeguard import typechecked
 
 from src.plotter.binder import Binder
-from src.plotter.defaults import ColName
+from src.plotter.defaults import ColName, FileFormat
 from src.plotter.plotter import Plotter
 from src.plotter.reader import Reader
 from src.plotter.utils import bin_data
@@ -29,12 +29,16 @@ class Runner:
         col_y: str,
         col_to_bind_by: Optional[str] = None,
         n_bins: Optional[int] = None,
-        out_filepath: Optional[str] = "plot.html",
+        out_filepath: Optional[str] = "".join(["plot", FileFormat.HTML]),
         bind: bool = False,
     ) -> None:
         """Runs binning, binding, and plotting on a given DataFrame"""
         if bind and (col_to_bind_by is None):
             raise ValueError("Bind set to True, but the binding column is not provided")
+
+        for col in [col_x, col_y, col_to_bind_by]:
+            if col is not None and col not in self.df.columns:
+                raise ValueError(f"Column {col} not found in the DataFrame")
 
         if n_bins is not None:
             self.df[ColName.BINS] = bin_data(self.df[col_to_bind_by], n_bins)

@@ -11,17 +11,6 @@ class Reader:
     def __init__(self, filepath: Path) -> None:
         """Reads a file to a pandas DataFrame."""
         assert filepath.exists(), f"File not found: {filepath}"
-        assert (
-            str(filepath)
-            .lower()
-            .endswith(
-                (FileFormat.CSV, FileFormat.TSV, FileFormat.XLS, FileFormat.XLSX),
-            )
-        ), (
-            f"Invalid file format: {filepath}. Only {FileFormat.CSV}, "
-            f"{FileFormat.TSV}, {FileFormat.XLS}, {FileFormat.XLSX} files are "
-            "supported."
-        )
 
         if str(filepath).lower().endswith(FileFormat.CSV):
             self.df = pd.read_csv(filepath)
