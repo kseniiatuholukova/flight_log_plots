@@ -57,8 +57,8 @@ class Runner:
         bin_size_max_limit (int, optional): Minimum number of data points in a
             bin. If bins have fewer data points, the ValueError is raised. Defaults
             to None.
-        out_filepath (str, optional): Path to save the plot. If the filepath
-            does not end with ".html", raises an error. Defaults to "plot.html".
+        out_filepath (str, optional): Path to save the plot. Should end with ".html".
+            Defaults to "plot.html".
         show_fig (bool, optional): If True, the plot is displayed in the browser.
             Defaults to False.
         """

@@ -26,9 +26,7 @@ np.random.shuffle(fox)
 # Column 3: opossum (float between 30 and 40, uniform)
 opossum = np.linspace(30, 40, N_ROWS)
 
-
 # Column 4: otter (float between 2 and 22, random, repeating at least 20 times),
-# 70% filled, rest NaN
 unique_otter = np.random.uniform(2, 22, N_ROWS)
 otter = np.repeat(unique_otter, 20)[:N_ROWS]  # Ensure each value repeats 20 times
 
