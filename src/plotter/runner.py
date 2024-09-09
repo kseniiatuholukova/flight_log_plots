@@ -37,8 +37,7 @@ class Runner:
         col_x: str,
         col_y: str,
         col_to_bind_by: Optional[str] = None,
-        n_bins: Optional[int] = None,
-        bin_size_max_limit: Optional[int] = None,
+        bin_size: Optional[int] = None,
         out_filepath: Optional[str] = "".join(["plot", FileFormat.HTML]),
         show_fig: bool = False,
     ) -> None:
@@ -51,12 +50,7 @@ class Runner:
         col_to_bind_by (str, optional): Name of the column with a third
             variable to bind by. If not provided, x is plotted directly against y.
             Defaults to None.
-        n_bins (int, optional): Number of bins to create. If not provided and
-            col_to_bind_by is provided, the third variable is used without binning.
-            Defaults to None.
-        bin_size_max_limit (int, optional): Minimum number of data points in a
-            bin. If bins have fewer data points, the ValueError is raised. Defaults
-            to None.
+        bin_size (int, optional): Number of data points in a bin. Defaults to None.
         out_filepath (str, optional): Path to save the plot. Should end with ".html".
             Defaults to "plot.html".
         show_fig (bool, optional): If True, the plot is displayed in the browser.
@@ -66,15 +60,14 @@ class Runner:
             if col is not None and col not in self.df.columns:
                 raise ValueError(f"Column {col} not found in the DataFrame")
 
-        if n_bins is not None:
+        if bin_size is not None:
             self.df[ColName.BIN] = bin_data(
-                self.df[col_to_bind_by],
-                n_bins,
-                bin_size_max_limit=bin_size_max_limit,
+                data=self.df[col_to_bind_by],
+                bin_size=bin_size,
             )
 
         if col_to_bind_by is not None:
-            col_to_bind_by = ColName.BIN if n_bins is not None else col_to_bind_by
+            col_to_bind_by = ColName.BIN if bin_size is not None else col_to_bind_by
             binder = Binder(self.df)
             bound_df = binder.bind(
                 col_x=col_x,

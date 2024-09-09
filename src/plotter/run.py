@@ -9,8 +9,7 @@ if __name__ == "__main__":
         col_x="capybara",
         col_y="fox",
         col_to_bind_by="timestamp",
-        n_bins=None,
-        bin_size_max_limit=100,
+        bin_size=5,
         out_filepath="../plot_1.html",
         show_fig=True,
     )
