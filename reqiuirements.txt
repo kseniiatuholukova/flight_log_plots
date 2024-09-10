@@ -1,5 +1,7 @@
 numpy==1.26.4
 pandas==2.2.2
 plotly==5.24.0
+plotly-express-0.4.1
 pre-commit==3.8.0
+tenacity-9.0.0
 typeguard==4.3.0

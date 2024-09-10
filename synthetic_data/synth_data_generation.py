@@ -56,4 +56,14 @@ nan_indices_otter = np.random.choice(
 )
 df_synthetic.iloc[nan_indices_otter, 4] = np.nan
 
+df_synthetic["mode"] = np.concatenate(
+    [
+        ["auto"] * int(N_ROWS // 5),
+        ["hyjavto"] * int(N_ROWS // 2.5),
+        ["bizhymo tudy!"] * int(N_ROWS // 3),
+        ["de ja nahuj?"]
+        * int(N_ROWS - (N_ROWS // 5) - (N_ROWS // 2.5) - (N_ROWS // 3)),
+    ]
+)
+
 df_synthetic.to_csv("./synthetic_data/synthetic_data.csv", index=False)

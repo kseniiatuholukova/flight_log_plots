@@ -12,7 +12,11 @@ from src.plotter.utils import bin_data
 
 class Runner:
     @typechecked
-    def __init__(self, in_filepath: str, datetime_col: Optional[str] = None) -> None:
+    def __init__(
+        self,
+        in_filepath: str,
+        datetime_col: Optional[str] = None,
+    ) -> None:
         """
         Initializes the Runner object
 
@@ -38,6 +42,7 @@ class Runner:
         col_y: str,
         col_to_bind_by: Optional[str] = None,
         bin_size: Optional[int] = None,
+        colorcode_col: Optional[str] = None,
         out_filepath: Optional[str] = "".join(["plot", FileFormat.HTML]),
         show_fig: bool = False,
     ) -> None:
@@ -51,12 +56,14 @@ class Runner:
             variable to bind by. If not provided, x is plotted directly against y.
             Defaults to None.
         bin_size (int, optional): Number of data points in a bin. Defaults to None.
+        colorcode_col (str, optional): Name of the column to color-code the plot.
+            Defaults to None.
         out_filepath (str, optional): Path to save the plot. Should end with ".html".
             Defaults to "plot.html".
         show_fig (bool, optional): If True, the plot is displayed in the browser.
             Defaults to False.
         """
-        for col in [col_x, col_y, col_to_bind_by]:
+        for col in [col_x, col_y, col_to_bind_by, colorcode_col]:
             if col is not None and col not in self.df.columns:
                 raise ValueError(f"Column {col} not found in the DataFrame")
 
@@ -73,6 +80,7 @@ class Runner:
                 col_x=col_x,
                 col_y=col_y,
                 col_to_bind_by=col_to_bind_by,
+                colorcode_col=colorcode_col,
             )
 
             plotter = Plotter(bound_df)
@@ -82,6 +90,7 @@ class Runner:
                 col_y=col_y,
                 out_filepath=out_filepath,
                 hover_data_col=col_to_bind_by,
+                colorcode_col=colorcode_col,
                 show_fig=show_fig,
             )
 
@@ -91,6 +100,7 @@ class Runner:
             plotter.plot(
                 col_x=col_x,
                 col_y=col_y,
+                colorcode_col=colorcode_col,
                 out_filepath=out_filepath,
                 show_fig=show_fig,
             )

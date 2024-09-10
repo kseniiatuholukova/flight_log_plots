@@ -1,3 +1,4 @@
+from typing import Optional
 from warnings import warn
 
 import pandas as pd
@@ -11,16 +12,35 @@ class Binder:
         self.df = df
 
     @typechecked
-    def bind(self, col_x: str, col_y: str, col_to_bind_by: str) -> pd.DataFrame:
+    def bind(
+        self,
+        col_x: str,
+        col_y: str,
+        col_to_bind_by: str,
+        colorcode_col: Optional[str] = None,
+    ) -> pd.DataFrame:
         """Binds values in x and y columns based on z column"""
-        for col in [col_x, col_y, col_to_bind_by]:
-            assert col in self.df.columns, f"Column {col} not found in the DataFrame"
+        for col in [col_x, col_y, col_to_bind_by, colorcode_col]:
+            if col is not None and col not in self.df.columns:
+                raise ValueError(f"Column {col} not found in the DataFrame")
 
-        df1 = self.df[[col_to_bind_by, col_x]].drop_duplicates()
+        if colorcode_col is not None:
+            cols_df_1 = [col_to_bind_by, col_x, colorcode_col]
+
+        else:
+            cols_df_1 = [col_to_bind_by, col_x]
+
+        # Create unique combinations of col_to_bind_by with col_x and col_y
+        # Colorcode column is added (if provided) to the first binding
+        df1 = self.df[cols_df_1].drop_duplicates()
         df2 = self.df[[col_to_bind_by, col_y]].drop_duplicates()
 
-        out_df = df1.merge(df2, on=col_to_bind_by, how="outer").dropna()
+        # Merge unique combinations where col_to_bind_by is the same
+        out_df = df1.merge(df2, on=col_to_bind_by, how="inner")
 
+        # Compare the resulting datframe with the original one. If any of the col_y
+        # values are missing because there is not a relevant binding value, warn
+        # the user
         if out_df[col_y].nunique() < self.df[col_y].nunique():
             missing_values = list(
                 set(self.df[col_y].dropna()) - set(out_df[col_y].dropna())
