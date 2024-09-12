@@ -17,26 +17,36 @@ class Binder:
         col_x: str,
         col_y: str,
         col_to_bind_by: str,
+        col_z: Optional[str] = None,
         colorcode_col: Optional[str] = None,
     ) -> pd.DataFrame:
         """Binds values in x and y columns based on z column"""
-        for col in [col_x, col_y, col_to_bind_by, colorcode_col]:
+        for col in [col_x, col_y, col_z, col_to_bind_by, colorcode_col]:
             if col is not None and col not in self.df.columns:
                 raise ValueError(f"Column {col} not found in the DataFrame")
 
-        if colorcode_col is not None:
-            cols_df_1 = [col_to_bind_by, col_x, colorcode_col]
-
-        else:
-            cols_df_1 = [col_to_bind_by, col_x]
-
         # Create unique combinations of col_to_bind_by with col_x and col_y
-        # Colorcode column is added (if provided) to the first binding
-        df1 = self.df[cols_df_1].drop_duplicates()
+        df1 = self.df[[col_to_bind_by, col_x]].drop_duplicates()
         df2 = self.df[[col_to_bind_by, col_y]].drop_duplicates()
 
         # Merge unique combinations where col_to_bind_by is the same
         out_df = df1.merge(df2, on=col_to_bind_by, how="inner")
+
+        # If col_z is provided, merge it with the resulting dataframe
+        if col_z is not None:
+            df3 = self.df[[col_to_bind_by, col_z]].drop_duplicates()
+            out_df = out_df.merge(df3, on=col_to_bind_by, how="inner")
+
+        # If colorcode_col is provided, merge it with the resulting dataframe
+        # Runs only if colorcode_col is not already in the resulting dataframe
+        if colorcode_col is not None and colorcode_col not in [
+            col_x,
+            col_y,
+            col_z,
+            col_to_bind_by,
+        ]:
+            df4 = self.df[[col_to_bind_by, colorcode_col]].drop_duplicates()
+            out_df = out_df.merge(df4, on=col_to_bind_by, how="left")
 
         # Compare the resulting datframe with the original one. If any of the col_y
         # values are missing because there is not a relevant binding value, warn

@@ -40,6 +40,7 @@ class Runner:
         self,
         col_x: str,
         col_y: str,
+        col_z: Optional[str] = None,
         col_to_bind_by: Optional[str] = None,
         bin_size: Optional[int] = None,
         colorcode_col: Optional[str] = None,
@@ -52,6 +53,8 @@ class Runner:
         Args:
         col_x (str): Name of the column to be plotted on the x-axis
         col_y (str): Name of the column to be plotted on the y-axis
+        col_z (str, optional): Name of the column to be plotted on the z-axis.
+            Defaults to None.
         col_to_bind_by (str, optional): Name of the column with a third
             variable to bind by. If not provided, x is plotted directly against y.
             Defaults to None.
@@ -63,10 +66,11 @@ class Runner:
         show_fig (bool, optional): If True, the plot is displayed in the browser.
             Defaults to False.
         """
-        for col in [col_x, col_y, col_to_bind_by, colorcode_col]:
+        for col in [col_x, col_y, col_z, col_to_bind_by, colorcode_col]:
             if col is not None and col not in self.df.columns:
                 raise ValueError(f"Column {col} not found in the DataFrame")
 
+        # bin data if bin_size is provided
         if bin_size is not None:
             self.df[ColName.BIN] = bin_data(
                 data=self.df[col_to_bind_by],
@@ -74,33 +78,60 @@ class Runner:
             )
 
         if col_to_bind_by is not None:
+            # use either the bin column or the original column to bind by
             col_to_bind_by = ColName.BIN if bin_size is not None else col_to_bind_by
             binder = Binder(self.df)
             bound_df = binder.bind(
                 col_x=col_x,
                 col_y=col_y,
+                col_z=col_z,
                 col_to_bind_by=col_to_bind_by,
                 colorcode_col=colorcode_col,
             )
 
+            # plot data with binding
             plotter = Plotter(bound_df)
 
-            plotter.plot(
-                col_x=col_x,
-                col_y=col_y,
-                out_filepath=out_filepath,
-                hover_data_col=col_to_bind_by,
-                colorcode_col=colorcode_col,
-                show_fig=show_fig,
-            )
+            if col_z is not None:
+                plotter.plot3D(
+                    col_x=col_x,
+                    col_y=col_y,
+                    col_z=col_z,
+                    out_filepath=out_filepath,
+                    hover_data_col=col_to_bind_by,
+                    colorcode_col=colorcode_col,
+                    show_fig=show_fig,
+                )
+
+            else:
+                plotter.plot2D(
+                    col_x=col_x,
+                    col_y=col_y,
+                    out_filepath=out_filepath,
+                    hover_data_col=col_to_bind_by,
+                    colorcode_col=colorcode_col,
+                    show_fig=show_fig,
+                )
 
         else:
+            # plot data without binding
             plotter = Plotter(self.df)
 
-            plotter.plot(
-                col_x=col_x,
-                col_y=col_y,
-                colorcode_col=colorcode_col,
-                out_filepath=out_filepath,
-                show_fig=show_fig,
-            )
+            if col_z is not None:
+                plotter.plot3D(
+                    col_x=col_x,
+                    col_y=col_y,
+                    col_z=col_z,
+                    out_filepath=out_filepath,
+                    colorcode_col=colorcode_col,
+                    show_fig=show_fig,
+                )
+
+            else:
+                plotter.plot2D(
+                    col_x=col_x,
+                    col_y=col_y,
+                    colorcode_col=colorcode_col,
+                    out_filepath=out_filepath,
+                    show_fig=show_fig,
+                )
