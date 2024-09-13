@@ -43,7 +43,7 @@ runner.run(
 
 
 runner_real = Runner(
-    in_filepath="./real_data/rssi-dist-azimuth.csv", datetime_col="TimeUS"
+    in_filepath="./real_data/rssi-dist-azimuth-13.09.2024.csv", datetime_col="TimeUS"
 )
 
 runner_real.run(
@@ -52,7 +52,7 @@ runner_real.run(
     col_to_bind_by="TimeUS",
     bin_size=5,
     colorcode_col="RSSI",
-    out_filepath="examples/output/rssi_against_distance.html",
+    out_filepath="examples/output/rssi_against_distance_1.html",
     show_fig=True,
 )
 
@@ -63,6 +63,6 @@ runner_real.run(
     col_to_bind_by="TimeUS",
     colorcode_col="RSSI",
     bin_size=5,
-    out_filepath="examples/output/rssi_against_dist_against_azimuth.html",
+    out_filepath="examples/output/rssi_against_dist_against_azimuth_1.html",
     show_fig=True,
 )
