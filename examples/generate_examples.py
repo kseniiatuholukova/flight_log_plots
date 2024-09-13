@@ -29,3 +29,40 @@ for animal in ["capybara", "fox", "opossum", "otter"]:
         out_filepath=f"examples/output/{animal}_against_time.html",
         show_fig=False,
     )
+
+runner.run(
+    col_x="fox",
+    col_y="opossum",
+    col_z="otter",
+    col_to_bind_by="timestamp",
+    colorcode_col="mode",
+    bin_size=5,
+    out_filepath="examples/output/fox_against_opossum_against_otter.html",
+    show_fig=True,
+)
+
+
+runner_real = Runner(
+    in_filepath="./real_data/rssi-dist-azimuth.csv", datetime_col="TimeUS"
+)
+
+runner_real.run(
+    col_x="Dist",
+    col_y="Azimuth",
+    col_to_bind_by="TimeUS",
+    bin_size=5,
+    colorcode_col="RSSI",
+    out_filepath="examples/output/rssi_against_distance.html",
+    show_fig=True,
+)
+
+runner_real.run(
+    col_x="Dist",
+    col_y="Azimuth",
+    col_z="RSSI",
+    col_to_bind_by="TimeUS",
+    colorcode_col="RSSI",
+    bin_size=5,
+    out_filepath="examples/output/rssi_against_dist_against_azimuth.html",
+    show_fig=True,
+)
